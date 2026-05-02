@@ -418,7 +418,7 @@
       <p class="card-sub">Scan the QR with any UPI app, or pick a quick amount below.</p>
 
       <div class="qr-wrap">
-        <canvas id="upi-qr"></canvas>
+        <img id="upi-qr" alt="UPI QR code for Dr. Sunil Mulgund" src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&amp;margin=10&amp;ecc=M&amp;data=upi%3A%2F%2Fpay%3Fpa%3Ddr.mulgund1%40ybl%26pn%3DDr.%2BSunil%2BMulgund%26cu%3DINR"/>
         <span class="qr-caption">Scan to pay</span>
       </div>
 
@@ -544,7 +544,6 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -568,16 +567,7 @@
     return l;
   };
 
-  // Render UPI QR (no amount = open amount, payer types it in their UPI app)
-  const qrCanvas = document.getElementById('upi-qr');
-  if (qrCanvas && window.QRCode) {
-    QRCode.toCanvas(qrCanvas, upiLink(), {
-      width: 200,
-      margin: 1,
-      errorCorrectionLevel: 'M',
-      color: { dark: '#0f2235', light: '#ffffff' }
-    });
-  }
+  // QR is rendered as a static image via api.qrserver.com (see <img id="upi-qr">)
 
   // Custom amount → open UPI app
   function payCustom() {
