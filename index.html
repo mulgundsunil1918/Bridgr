@@ -156,6 +156,41 @@
     .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease;}
     .reveal.visible{opacity:1;transform:translateY(0);}
 
+    /* SUPPORT */
+    .support-section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:80px 24px 100px;}
+    .support-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;margin-top:48px;}
+    .support-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:36px;backdrop-filter:blur(20px) saturate(160%);position:relative;overflow:hidden;}
+    .support-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.02em;}
+    .support-card .card-sub{color:var(--text-muted);font-size:0.92rem;line-height:1.65;margin-bottom:24px;}
+    .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:18px;margin-bottom:22px;}
+    .qr-wrap canvas,.qr-wrap img{display:block;width:200px;height:200px;}
+    .qr-caption{font-size:0.78rem;color:#0f2235;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;}
+    .quick-pay-label{font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;}
+    .amount-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+    .amt-btn{display:flex;align-items:center;justify-content:center;padding:12px 0;border-radius:12px;background:var(--surface-hover);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.95rem;text-decoration:none;transition:transform 0.2s,border-color 0.2s,background 0.2s,color 0.2s;cursor:pointer;}
+    .amt-btn:hover{border-color:var(--border-hover);background:var(--accent-glow);color:var(--accent);transform:translateY(-2px);}
+    .custom-amount{display:flex;gap:10px;margin-bottom:22px;}
+    .custom-amount input{flex:1;padding:12px 16px;border-radius:12px;background:var(--surface-hover);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;-moz-appearance:textfield;}
+    .custom-amount input::-webkit-outer-spin-button,.custom-amount input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+    .custom-amount input:focus{border-color:var(--border-hover);}
+    .custom-amount input::placeholder{color:var(--text-subtle);}
+    .custom-amount button{padding:12px 22px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#080c14;border:none;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.95rem;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;}
+    .custom-amount button:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--accent-glow);}
+    .upi-id-row{display:flex;align-items:center;gap:10px;padding:14px 18px;background:rgba(15,34,53,0.5);border:1px solid var(--border);border-radius:12px;}
+    .upi-id-row .label{font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);}
+    .upi-id-row code{flex:1;font-family:'DM Sans',monospace;font-size:0.95rem;color:var(--accent);font-weight:500;background:transparent;}
+    .copy-btn{padding:8px 14px;border-radius:8px;background:var(--surface-hover);border:1px solid var(--border);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;cursor:pointer;transition:color 0.2s,border-color 0.2s,background 0.2s;}
+    .copy-btn:hover{color:var(--accent);border-color:var(--border-hover);background:var(--accent-glow);}
+    .copy-btn.copied{color:var(--accent);border-color:var(--border-hover);}
+    .social-link{display:flex;align-items:flex-start;gap:16px;padding:18px;border-radius:14px;border:1px solid var(--border);background:var(--surface-hover);text-decoration:none;color:var(--text);transition:transform 0.2s,border-color 0.2s,background 0.2s;margin-bottom:12px;}
+    .social-link:hover{transform:translateY(-2px);border-color:var(--border-hover);background:var(--accent-glow);}
+    .social-link:last-child{margin-bottom:0;}
+    .social-icon{width:44px;height:44px;border-radius:11px;background:var(--icon-bg);border:1px solid var(--icon-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent);}
+    .social-text{display:flex;flex-direction:column;gap:4px;}
+    .social-text .title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:1rem;color:var(--text);}
+    .social-text .desc{font-size:0.85rem;color:var(--text-muted);line-height:1.5;}
+    .free-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-glow);border:1px solid var(--border-hover);border-radius:999px;padding:6px 14px;font-size:0.72rem;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;}
+
     @media(max-width:768px){
       nav{padding:12px 20px;}
       .nav-links{display:none;}
@@ -165,6 +200,11 @@
       .hero-desc{margin-bottom:32px;}
       .about-grid{grid-template-columns:1fr;}
       .contact-card{padding:36px 24px;}
+      .support-section{padding:40px 20px 60px;}
+      .support-grid{grid-template-columns:1fr;gap:20px;margin-top:32px;}
+      .support-card{padding:28px 22px;}
+      .qr-wrap canvas,.qr-wrap img{width:180px;height:180px;}
+      .amount-buttons{grid-template-columns:repeat(2,1fr);}
       footer{padding:24px 20px;flex-direction:column;text-align:center;}
     }
   </style>
@@ -201,6 +241,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#apps">Products</a></li>
     <li><a href="#blog">Blog</a></li>
+    <li><a href="#support">Support</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
@@ -360,6 +401,88 @@
 
 <div class="divider"><hr/></div>
 
+<!-- SUPPORT -->
+<section class="support-section" id="support">
+  <div class="reveal">
+    <div class="section-label">Support</div>
+    <h2 class="section-title">Support the developer.</h2>
+    <p class="section-sub">Every tool in Bridgr — Medshelf, Wardly, Pediaid, CureDesk — is free, and will stay free. No paywalls, no ads, no premium tiers. Built so any doctor, anywhere, can use them. If they've helped you and you'd like to keep this going, your support keeps the servers running and the next tool getting built. No amount is too small.</p>
+  </div>
+
+  <div class="support-grid">
+
+    <!-- UPI CARD -->
+    <div class="support-card reveal">
+      <div class="free-badge"><span style="width:6px;height:6px;background:var(--accent);border-radius:50%;"></span>Free forever</div>
+      <h3>Pay via UPI</h3>
+      <p class="card-sub">Scan the QR with any UPI app, or pick a quick amount below.</p>
+
+      <div class="qr-wrap">
+        <canvas id="upi-qr"></canvas>
+        <span class="qr-caption">Scan to pay</span>
+      </div>
+
+      <div class="quick-pay-label">Quick pay</div>
+      <div class="amount-buttons">
+        <a class="amt-btn" href="upi://pay?pa=dr.mulgund1@ybl&amp;pn=Dr.%20Sunil%20Mulgund&amp;cu=INR&amp;am=99">₹99</a>
+        <a class="amt-btn" href="upi://pay?pa=dr.mulgund1@ybl&amp;pn=Dr.%20Sunil%20Mulgund&amp;cu=INR&amp;am=299">₹299</a>
+        <a class="amt-btn" href="upi://pay?pa=dr.mulgund1@ybl&amp;pn=Dr.%20Sunil%20Mulgund&amp;cu=INR&amp;am=499">₹499</a>
+        <a class="amt-btn" href="upi://pay?pa=dr.mulgund1@ybl&amp;pn=Dr.%20Sunil%20Mulgund&amp;cu=INR&amp;am=999">₹999</a>
+      </div>
+
+      <div class="custom-amount">
+        <input type="number" id="custom-amt" placeholder="Custom amount (₹)" min="1" inputmode="numeric"/>
+        <button type="button" onclick="payCustom()">Pay</button>
+      </div>
+
+      <div class="upi-id-row">
+        <span class="label">UPI</span>
+        <code id="upi-id">dr.mulgund1@ybl</code>
+        <button type="button" class="copy-btn" id="copy-btn" onclick="copyUpi()">Copy</button>
+      </div>
+    </div>
+
+    <!-- SOCIAL CARD -->
+    <div class="support-card reveal">
+      <h3>Stay connected</h3>
+      <p class="card-sub">Follow along, see what's coming next, and support the work in another way.</p>
+
+      <a href="https://www.instagram.com/sunilmulgund?igsh=bzI0NXBjZWdmcW5y" target="_blank" rel="noopener" class="social-link">
+        <span class="social-icon">
+          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </span>
+        <span class="social-text">
+          <span class="title">Follow on Instagram &amp; support me</span>
+          <span class="desc">Behind the scenes of every tool I'm building, and bits from the ward.</span>
+        </span>
+      </a>
+
+      <a href="https://www.youtube.com/@ATPProductionsSDM" target="_blank" rel="noopener" class="social-link">
+        <span class="social-icon">
+          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span class="social-text">
+          <span class="title">Subscribe on YouTube &amp; support me</span>
+          <span class="desc">Walkthroughs, demos, and the occasional film I still can't stop making.</span>
+        </span>
+      </a>
+
+      <a href="https://www.linkedin.com/in/sunil-mulgund-b782b690" target="_blank" rel="noopener" class="social-link">
+        <span class="social-icon">
+          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </span>
+        <span class="social-text">
+          <span class="title">Connect on LinkedIn &amp; support me</span>
+          <span class="desc">Professional updates, launches, and announcements.</span>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr/></div>
+
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
   <div class="contact-card reveal">
@@ -421,8 +544,9 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
-  
+
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const target = document.querySelector(this.getAttribute('href'));
@@ -434,6 +558,68 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
+
+  /* === UPI / Support === */
+  const UPI_ID = 'dr.mulgund1@ybl';
+  const UPI_NAME = 'Dr. Sunil Mulgund';
+  const upiLink = (amount) => {
+    let l = 'upi://pay?pa=' + encodeURIComponent(UPI_ID) + '&pn=' + encodeURIComponent(UPI_NAME) + '&cu=INR';
+    if (amount) l += '&am=' + encodeURIComponent(amount);
+    return l;
+  };
+
+  // Render UPI QR (no amount = open amount, payer types it in their UPI app)
+  const qrCanvas = document.getElementById('upi-qr');
+  if (qrCanvas && window.QRCode) {
+    QRCode.toCanvas(qrCanvas, upiLink(), {
+      width: 200,
+      margin: 1,
+      errorCorrectionLevel: 'M',
+      color: { dark: '#0f2235', light: '#ffffff' }
+    });
+  }
+
+  // Custom amount → open UPI app
+  function payCustom() {
+    const v = parseFloat(document.getElementById('custom-amt').value);
+    if (!v || v <= 0) {
+      document.getElementById('custom-amt').focus();
+      return;
+    }
+    window.location.href = upiLink(v.toFixed(2));
+  }
+  window.payCustom = payCustom;
+
+  // Copy UPI ID to clipboard
+  function copyUpi() {
+    const btn = document.getElementById('copy-btn');
+    const txt = document.getElementById('upi-id').textContent.trim();
+    const done = () => {
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = txt; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove(); done();
+      });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); ta.remove(); done();
+    }
+  }
+  window.copyUpi = copyUpi;
+
+  // Allow Enter key in custom amount to trigger pay
+  const customInput = document.getElementById('custom-amt');
+  if (customInput) {
+    customInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); payCustom(); }
+    });
+  }
 </script>
 </body>
 </html>
