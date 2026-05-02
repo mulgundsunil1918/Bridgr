@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Bridgr — A suite of clinical tools built by Dr. Sunil Mulgund, Pediatrician and Neonatologist from Karnataka. Real problems. Real solutions."/>
-  <meta name="keywords" content="Bridgr, Medshelf, Wardly, Pediaid, CureDesk, clinical tools, pediatrics, neonatology"/>
+  <meta name="keywords" content="Bridgr, Medshelf, Wardly, Pediaid, CureDesk, DocShelf, clinical tools, document vault, pediatrics, neonatology"/>
   <meta property="og:title" content="Bridgr — Bridge the gap"/>
   <meta property="og:description" content="Clinical tools built by a Pediatrician, for the real world."/>
   <meta property="og:type" content="website"/>
@@ -123,6 +123,7 @@
     .app-link svg{transition:transform 0.2s;}
     .app-card:hover .app-link svg{transform:translateX(4px);}
     .coming-tag{display:inline-block;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-subtle);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:3px 9px;margin-bottom:10px;}
+    .beta-pill{position:absolute;top:14px;right:14px;display:inline-block;font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#fbbf24;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.32);border-radius:999px;padding:3px 9px;z-index:2;}
 
     /* BLOG */
     .blog-section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:60px 24px 100px;}
@@ -190,6 +191,14 @@
     .social-text .title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:1rem;color:var(--text);}
     .social-text .desc{font-size:0.85rem;color:var(--text-muted);line-height:1.5;}
     .free-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-glow);border:1px solid var(--border-hover);border-radius:999px;padding:6px 14px;font-size:0.72rem;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;}
+    .open-upi-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px 20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#080c14;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;border-radius:14px;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s,filter 0.2s;box-shadow:0 4px 24px var(--accent-glow);margin-bottom:10px;}
+    .open-upi-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--accent-glow);filter:brightness(1.05);}
+    .open-upi-btn svg{flex-shrink:0;}
+    .open-upi-hint{text-align:center;font-size:0.78rem;color:var(--text-subtle);margin-bottom:22px;letter-spacing:0.01em;}
+    .visitor-stat{display:inline-flex;align-items:center;gap:9px;margin-top:18px;padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:0.85rem;font-weight:500;backdrop-filter:blur(10px);}
+    .visitor-stat svg{color:var(--accent);flex-shrink:0;}
+    .visitor-stat .visitor-num{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;font-size:0.95rem;letter-spacing:0.01em;}
+    .visitor-stat .visitor-label{color:var(--text-subtle);}
 
     @media(max-width:768px){
       nav{padding:12px 20px;}
@@ -354,6 +363,25 @@
       <span class="app-link">Open App <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
     </a>
 
+    <a href="https://mulgundsunil1918.github.io/Docshelf/" target="_blank" class="app-card reveal">
+      <span class="beta-pill">Beta</span>
+      <svg class="app-logo" width="60" height="60" viewBox="0 0 100 100" fill="none" style="border-radius:16px;display:block;">
+        <defs>
+          <linearGradient id="dsBg" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#5ef5e4"/><stop offset="1" stop-color="#0a8ecf"/></linearGradient>
+        </defs>
+        <rect width="100" height="100" fill="url(#dsBg)"/>
+        <rect x="18" y="25" width="50" height="8" rx="2" fill="white" opacity="0.82"/>
+        <rect x="18" y="40" width="64" height="8" rx="2" fill="white"/>
+        <rect x="74" y="40" width="8" height="8" rx="1.5" fill="#fbbf24"/>
+        <rect x="18" y="55" width="42" height="8" rx="2" fill="white" opacity="0.82"/>
+        <line x1="14" y1="73" x2="86" y2="73" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+      </svg>
+      <div class="app-tag">Document Vault</div>
+      <div class="app-name">DocShelf</div>
+      <p class="app-desc">Helps anyone keep their personal documents — IDs, contracts, payslips, insurance, marksheets, quotes, receipts — in one searchable offline vault. Scan paper documents with auto-edge detection, import directly from WhatsApp, Drive, or Downloads, and let the phone calendar remind you when anything expires. Files organised, offline — nothing ever leaves your device.</p>
+      <span class="app-link">Open App <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+
     <div class="app-card coming-soon reveal">
       <div class="app-logo-placeholder">✦</div>
       <div class="coming-tag">Coming Soon</div>
@@ -406,7 +434,12 @@
   <div class="reveal">
     <div class="section-label">Support</div>
     <h2 class="section-title">Support the developer.</h2>
-    <p class="section-sub">Every tool in Bridgr — Medshelf, Wardly, Pediaid, CureDesk — is free, and will stay free. No paywalls, no ads, no premium tiers. Built so any doctor, anywhere, can use them. If they've helped you and you'd like to keep this going, your support keeps the servers running and the next tool getting built. No amount is too small.</p>
+    <p class="section-sub">Every tool in Bridgr — Medshelf, Wardly, Pediaid, DocShelf, CureDesk — is free, and will stay free. No paywalls, no ads, no premium tiers. Built so any doctor, anywhere, can use them. If they've helped you and you'd like to keep this going, your support keeps the servers running and the next tool getting built. No amount is too small.</p>
+    <div class="visitor-stat" id="visitor-stat" aria-live="polite">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span class="visitor-num" id="visitor-num">—</span>
+      <span class="visitor-label">visitors so far</span>
+    </div>
   </div>
 
   <div class="support-grid">
@@ -417,9 +450,15 @@
       <h3>Pay via UPI</h3>
       <p class="card-sub">Scan the QR with any UPI app, or pick a quick amount below.</p>
 
+      <a class="open-upi-btn" href="upi://pay?pa=dr.mulgund1@ybl&amp;pn=Dr.%20Sunil%20Mulgund&amp;cu=INR">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+        Open in UPI App
+      </a>
+      <div class="open-upi-hint">Opens GPay, PhonePe, Paytm or any UPI app on your phone</div>
+
       <div class="qr-wrap">
         <img id="upi-qr" alt="UPI QR code for Dr. Sunil Mulgund" src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&amp;margin=10&amp;ecc=M&amp;data=upi%3A%2F%2Fpay%3Fpa%3Ddr.mulgund1%40ybl%26pn%3DDr.%2BSunil%2BMulgund%26cu%3DINR"/>
-        <span class="qr-caption">Scan to pay</span>
+        <span class="qr-caption">Or scan to pay</span>
       </div>
 
       <div class="quick-pay-label">Quick pay</div>
@@ -530,7 +569,7 @@
       <span class="logo-tag sm">Bridge the gap</span>
     </div>
   </a>
-  <p>© 2025 Dr. Sunil Mulgund · Built with purpose from Karnataka</p>
+  <p>© 2025 Dr. Sunil Mulgund · Built with purpose</p>
   <div style="display:flex;gap:12px;align-items:center;">
     <a href="https://www.instagram.com/sunilmulgund?igsh=bzI0NXBjZWdmcW5y" target="_blank" style="color:var(--text-subtle);transition:color 0.2s;text-decoration:none;" onmouseover="this.style.color='#2DD4BF'" onmouseout="this.style.color=''">
       <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
@@ -610,6 +649,37 @@
       if (e.key === 'Enter') { e.preventDefault(); payCustom(); }
     });
   }
+
+  /* === Visitor counter === */
+  // Uses counterapi.dev (free, no signup, no auth). One increment per browser per day.
+  (function () {
+    const numEl = document.getElementById('visitor-num');
+    if (!numEl) return;
+    const NS = 'bridgr-co-in';
+    const KEY = 'visits';
+    const today = new Date().toISOString().slice(0, 10);
+    const lastVisit = localStorage.getItem('bridgr_visit_day');
+    const shouldIncrement = lastVisit !== today;
+    const url = 'https://api.counterapi.dev/v1/' + NS + '/' + KEY + (shouldIncrement ? '/up' : '/');
+
+    const formatNum = (n) => Number(n).toLocaleString('en-IN');
+
+    fetch(url)
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(data => {
+        const c = data && (data.count || data.value);
+        if (typeof c === 'number') {
+          numEl.textContent = formatNum(c);
+          if (shouldIncrement) localStorage.setItem('bridgr_visit_day', today);
+        } else {
+          numEl.parentElement.style.display = 'none';
+        }
+      })
+      .catch(() => {
+        // Hide gracefully if API is unreachable
+        numEl.parentElement.style.display = 'none';
+      });
+  })();
 </script>
 </body>
 </html>
