@@ -195,10 +195,14 @@
     .open-upi-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--accent-glow);filter:brightness(1.05);}
     .open-upi-btn svg{flex-shrink:0;}
     .open-upi-hint{text-align:center;font-size:0.78rem;color:var(--text-subtle);margin-bottom:22px;letter-spacing:0.01em;}
-    .visitor-stat{display:inline-flex;align-items:center;gap:9px;margin-top:18px;padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:0.85rem;font-weight:500;backdrop-filter:blur(10px);}
+    .stat-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px;}
+    .visitor-stat{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:0.85rem;font-weight:500;backdrop-filter:blur(10px);}
     .visitor-stat svg{color:var(--accent);flex-shrink:0;}
     .visitor-stat .visitor-num{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;font-size:0.95rem;letter-spacing:0.01em;}
     .visitor-stat .visitor-label{color:var(--text-subtle);}
+    .home-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:0.85rem;font-weight:500;text-decoration:none;backdrop-filter:blur(10px);transition:color 0.2s,border-color 0.2s,background 0.2s,transform 0.2s;}
+    .home-pill:hover{color:var(--accent);border-color:var(--border-hover);background:var(--accent-glow);transform:translateY(-1px);}
+    .home-pill svg{color:var(--accent);flex-shrink:0;}
 
     @media(max-width:768px){
       nav{padding:12px 20px;}
@@ -489,10 +493,16 @@
     <div class="section-label">Support</div>
     <h2 class="section-title">Support the developer.</h2>
     <p class="section-sub">Every tool in Bridgr — Medshelf, Wardly, Pediaid, DocShelf, CureDesk — is free, and will stay free. No paywalls, no ads, no premium tiers. Built so any doctor, anywhere, can use them. If they've helped you and you'd like to keep this going, your support keeps the servers running and the next tool getting built. No amount is too small.</p>
-    <div class="visitor-stat" id="visitor-stat" aria-live="polite">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      <span class="visitor-num" id="visitor-num">—</span>
-      <span class="visitor-label">visitors so far</span>
+    <div class="stat-row">
+      <div class="visitor-stat" id="visitor-stat" aria-live="polite">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="visitor-num" id="visitor-num">—</span>
+        <span class="visitor-label">visitors so far</span>
+      </div>
+      <a href="#" class="home-pill" aria-label="Back to top">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Visit home page
+      </a>
     </div>
   </div>
 
