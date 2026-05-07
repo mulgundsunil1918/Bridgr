@@ -736,7 +736,7 @@
         const tag = cats[0] || 'Post';
         const id = extractPostId(e.id && e.id.$t);
         const href = id ? '/blog/?id=' + encodeURIComponent(id) : (((e.link || []).find(l => l.rel === 'alternate') || {}).href || '#');
-        return '<a href="' + escapeHtml(href) + '" class="blog-card reveal">' +
+        return '<a href="' + escapeHtml(href) + '" class="blog-card">' +
                '<div class="blog-tag">' + escapeHtml(tag) + '</div>' +
                '<div class="blog-title">' + escapeHtml(title) + '</div>' +
                '<p class="blog-excerpt">' + escapeHtml(excerpt) + '</p>' +
