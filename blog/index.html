@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta id="meta-description" name="description" content="A note from Dr. Sunil Mulgund on Bridgr."/>
+  <meta property="og:title" id="og-title" content="Bridgr Blog"/>
+  <meta property="og:description" id="og-description" content="Notes from the ward and the workbench."/>
+  <meta property="og:type" content="article"/>
+  <title id="page-title">Bridgr Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --accent:#2DD4BF; --accent2:#0EA5E9; --accent-glow:rgba(45,212,191,0.18);
+      --radius:24px;
+      --bg:#080c14; --surface:rgba(255,255,255,0.04); --surface-hover:rgba(255,255,255,0.08);
+      --border:rgba(255,255,255,0.08); --border-hover:rgba(45,212,191,0.35);
+      --text:#f0f4ff; --text-muted:rgba(240,244,255,0.65); --text-subtle:rgba(240,244,255,0.32);
+      --glass:rgba(13,18,32,0.85);
+      --icon-bg:linear-gradient(160deg,#0f2235,#080d1a);
+      --icon-border:rgba(45,212,191,0.22);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+    .bg-orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.1;animation:drift 18s ease-in-out infinite alternate;}
+    .orb-1{width:600px;height:600px;background:var(--accent);top:-200px;left:-150px;}
+    .orb-2{width:500px;height:500px;background:var(--accent2);bottom:-100px;right:-100px;animation-delay:-6s;}
+    @keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(40px,30px) scale(1.08);}}
+
+    .page-header{position:relative;z-index:2;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);background:rgba(8,12,20,0.7);backdrop-filter:blur(16px);}
+    .logo-lockup{display:flex;align-items:center;gap:14px;text-decoration:none;}
+    .logo-icon-box{width:38px;height:38px;border-radius:11px;background:var(--icon-bg);border:1px solid var(--icon-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(45,212,191,0.12),inset 0 1px 0 rgba(255,255,255,0.08);}
+    .logo-text{display:flex;flex-direction:column;gap:2px;}
+    .logo-name{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.25rem;line-height:1;color:var(--text);}
+    .logo-name .r{color:var(--accent);}
+    .logo-tag{font-family:'DM Sans',sans-serif;font-weight:400;font-size:0.55rem;letter-spacing:0.1em;color:rgba(45,212,191,0.65);margin-top:2px;}
+
+    .header-link{display:inline-flex;align-items:center;gap:8px;font-size:0.88rem;font-weight:500;color:var(--text-muted);text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(10px);transition:color 0.2s,border-color 0.2s,background 0.2s,transform 0.2s;}
+    .header-link:hover{color:var(--accent);border-color:var(--border-hover);background:var(--accent-glow);transform:translateY(-1px);}
+
+    main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 24px 64px;}
+
+    .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;color:var(--text-subtle);font-size:0.85rem;}
+    .post-tag{display:inline-block;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-glow);border-radius:6px;padding:3px 9px;}
+    .meta-dot{width:3px;height:3px;border-radius:50%;background:var(--text-subtle);}
+
+    .post-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.03em;line-height:1.15;margin-bottom:14px;color:var(--text);}
+
+    .post-author-row{display:flex;align-items:center;gap:10px;margin-bottom:36px;color:var(--text-muted);font-size:0.9rem;}
+    .post-author-row strong{color:var(--text);font-weight:600;}
+
+    .post-content{font-family:'DM Sans',sans-serif;font-size:1.05rem;line-height:1.78;color:rgba(240,244,255,0.78);}
+    .post-content > *:first-child{margin-top:0;}
+    .post-content p{margin:0 0 1.15em;}
+    .post-content h1,.post-content h2,.post-content h3,.post-content h4{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);font-weight:700;letter-spacing:-0.02em;line-height:1.25;margin:1.8em 0 0.6em;}
+    .post-content h1{font-size:1.8rem;}
+    .post-content h2{font-size:1.5rem;}
+    .post-content h3{font-size:1.25rem;}
+    .post-content h4{font-size:1.1rem;}
+    .post-content a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(45,212,191,0.4);text-underline-offset:3px;transition:text-decoration-color 0.2s;}
+    .post-content a:hover{text-decoration-color:var(--accent);}
+    .post-content strong,.post-content b{color:var(--text);font-weight:700;}
+    .post-content em,.post-content i{color:rgba(240,244,255,0.85);}
+    .post-content ul,.post-content ol{margin:0 0 1.15em 1.4em;}
+    .post-content li{margin-bottom:0.4em;}
+    .post-content blockquote{border-left:3px solid var(--accent);padding:0.4em 0 0.4em 1.2em;margin:1.4em 0;color:rgba(240,244,255,0.85);font-style:italic;background:var(--surface);border-radius:0 12px 12px 0;}
+    .post-content img{max-width:100%;height:auto;display:block;border-radius:14px;margin:1.4em auto;border:1px solid var(--border);}
+    .post-content iframe{max-width:100%;border-radius:14px;margin:1.4em auto;display:block;}
+    .post-content code{background:var(--surface);padding:2px 7px;border-radius:5px;font-family:'DM Sans',monospace;font-size:0.92em;color:var(--accent);border:1px solid var(--border);}
+    .post-content pre{background:var(--surface);padding:18px 20px;border-radius:14px;border:1px solid var(--border);overflow-x:auto;margin:1.4em 0;}
+    .post-content pre code{background:transparent;padding:0;border:none;}
+    .post-content hr{border:none;border-top:1px solid var(--border);margin:2.4em 0;}
+
+    .post-divider{margin:48px 0 32px;border:none;border-top:1px solid var(--border);}
+
+    .post-end{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+    .end-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text-muted);font-size:0.9rem;font-weight:500;text-decoration:none;backdrop-filter:blur(10px);transition:color 0.2s,border-color 0.2s,background 0.2s,transform 0.2s;}
+    .end-btn:hover{color:var(--accent);border-color:var(--border-hover);background:var(--accent-glow);transform:translateY(-1px);}
+    .end-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#080c14;border:none;font-weight:600;}
+    .end-btn.primary:hover{filter:brightness(1.05);box-shadow:0 6px 20px var(--accent-glow);}
+
+    .loading,.error{padding:60px 0;text-align:center;color:var(--text-muted);}
+    .error h2{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);margin-bottom:8px;font-size:1.4rem;}
+
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px 24px 40px;text-align:center;color:var(--text-subtle);font-size:0.82rem;}
+
+    @media(max-width:768px){
+      .page-header{padding:14px 18px;}
+      main{padding:32px 18px 56px;}
+      .logo-icon-box{width:34px;height:34px;}
+      .logo-name{font-size:1.1rem;}
+      .header-link{font-size:0.8rem;padding:7px 12px;}
+      .post-content{font-size:1rem;line-height:1.72;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<header class="page-header">
+  <a href="/" class="logo-lockup">
+    <div class="logo-icon-box">
+      <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+        <rect x="10" y="18" width="32" height="56" rx="9" fill="url(#bg1)"/>
+        <rect x="58" y="18" width="32" height="56" rx="9" fill="url(#bg2)"/>
+        <line x1="42" y1="50" x2="58" y2="50" stroke="url(#bgg)" stroke-width="5" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="bg1" x1="10" y1="18" x2="42" y2="74" gradientUnits="userSpaceOnUse"><stop stop-color="#5ef5e4"/><stop offset="1" stop-color="#1db8aa"/></linearGradient>
+          <linearGradient id="bg2" x1="58" y1="18" x2="90" y2="74" gradientUnits="userSpaceOnUse"><stop stop-color="#4dcff8"/><stop offset="1" stop-color="#0a8ecf"/></linearGradient>
+          <linearGradient id="bgg" x1="42" y1="50" x2="58" y2="50" gradientUnits="userSpaceOnUse"><stop stop-color="#2DD4BF"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-name">Bridg<span class="r">r</span></span>
+      <span class="logo-tag">Bridge the gap</span>
+    </div>
+  </a>
+  <a href="/#blog" class="header-link">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    All posts
+  </a>
+</header>
+
+<main>
+  <div id="post-state" class="loading" aria-live="polite">Loading post…</div>
+  <article id="post-article" hidden>
+    <div class="post-meta">
+      <span class="post-tag" id="post-tag">Post</span>
+      <span class="meta-dot"></span>
+      <span id="post-date">—</span>
+    </div>
+    <h1 class="post-title" id="post-title">—</h1>
+    <div class="post-author-row">By <strong id="post-author">Dr. Sunil Mulgund</strong></div>
+    <div class="post-content" id="post-content"></div>
+    <hr class="post-divider"/>
+    <div class="post-end">
+      <a href="/#blog" class="end-btn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to all posts
+      </a>
+      <a href="/support" class="end-btn primary">
+        Support the work →
+      </a>
+    </div>
+  </article>
+</main>
+
+<footer>
+  © 2025 Dr. Sunil Mulgund · Built with purpose
+</footer>
+
+<script>
+  (function () {
+    const FEED = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json&max-results=50';
+    const stateEl = document.getElementById('post-state');
+    const article = document.getElementById('post-article');
+
+    const params = new URLSearchParams(window.location.search);
+    const wantedId = (params.get('id') || '').trim();
+
+    const showError = (h, p) => {
+      stateEl.className = 'error';
+      stateEl.innerHTML = '<h2>' + h + '</h2><p style="margin-bottom:18px;">' + p + '</p><a href="/#blog" class="end-btn">← Back to all posts</a>';
+    };
+
+    if (!wantedId) {
+      showError('No post selected', 'Pick one from the blog grid on the home page.');
+      return;
+    }
+
+    const formatDate = (iso) => {
+      try { return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }); }
+      catch (e) { return ''; }
+    };
+    const extractPostId = (tagId) => {
+      const m = String(tagId || '').match(/post-(\d+)/);
+      return m ? m[1] : '';
+    };
+
+    fetch(FEED)
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(data => {
+        const entries = (data && data.feed && data.feed.entry) || [];
+        const post = entries.find(e => extractPostId(e.id && e.id.$t) === wantedId);
+        if (!post) { showError('Post not found', "Maybe it was removed, or the link is wrong. Head back and pick another."); return; }
+
+        const title = (post.title && post.title.$t) || 'Untitled';
+        const content = (post.content && post.content.$t) || '<p><em>This post has no content yet.</em></p>';
+        const date = formatDate(post.published && post.published.$t);
+        const author = (post.author && post.author[0] && post.author[0].name && post.author[0].name.$t) || 'Dr. Sunil Mulgund';
+        const cats = (post.category || []).map(c => c.term).filter(Boolean);
+        const tag = cats[0] || 'Post';
+        const permalink = ((post.link || []).find(l => l.rel === 'alternate') || {}).href || '';
+
+        document.getElementById('post-tag').textContent = tag;
+        document.getElementById('post-date').textContent = date;
+        document.getElementById('post-title').textContent = title;
+        document.getElementById('post-author').textContent = author;
+        document.getElementById('post-content').innerHTML = content;
+
+        // Make embedded links open in new tab for safety
+        document.querySelectorAll('#post-content a').forEach(a => {
+          if (a.hostname && a.hostname !== window.location.hostname) {
+            a.target = '_blank'; a.rel = 'noopener';
+          }
+        });
+
+        document.getElementById('page-title').textContent = title + ' · Bridgr';
+        document.title = title + ' · Bridgr';
+        document.getElementById('og-title').setAttribute('content', title + ' · Bridgr');
+        const tmp = document.createElement('div'); tmp.innerHTML = content;
+        const plain = (tmp.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 160);
+        document.getElementById('og-description').setAttribute('content', plain);
+        document.getElementById('meta-description').setAttribute('content', plain);
+
+        stateEl.hidden = true;
+        article.hidden = false;
+      })
+      .catch(() => {
+        showError("Couldn't load post", 'Refresh in a moment, or read it directly on <a href="https://bridgr.blogspot.com" target="_blank" rel="noopener" style="color:var(--accent);">bridgr.blogspot.com</a>.');
+      });
+  })();
+</script>
+</body>
+</html>

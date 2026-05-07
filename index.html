@@ -461,29 +461,13 @@
     <h2 class="section-title">Thoughts &amp; updates.</h2>
     <p class="section-sub">What I'm building, learning, and thinking about — from the ward and the workbench.</p>
   </div>
-  <div class="blog-grid">
-
-    <a href="#" class="blog-card reveal">
-      <div class="blog-tag">Building</div>
-      <div class="blog-title">Why I started building clinical tools with AI</div>
-      <p class="blog-excerpt">The frustration of having a clear problem and no one to build the solution. How vibe coding changed everything for a clinician with no coding background.</p>
-      <div class="blog-meta"><span>Dr. Sunil Mulgund</span><span class="blog-dot"></span><span>Coming soon</span></div>
-    </a>
-
-    <a href="#" class="blog-card reveal">
-      <div class="blog-tag">Neonatology</div>
-      <div class="blog-title">Gaps I see every day in the NICU — and what I'm doing about it</div>
-      <p class="blog-excerpt">From drug dosing errors to missing growth chart tools — a neonatologist's honest look at what's broken in clinical software and what Bridgr is trying to fix.</p>
-      <div class="blog-meta"><span>Dr. Sunil Mulgund</span><span class="blog-dot"></span><span>Coming soon</span></div>
-    </a>
-
-    <a href="#" class="blog-card reveal">
-      <div class="blog-tag">Product</div>
-      <div class="blog-title">Building Wardly — from idea to live app</div>
-      <p class="blog-excerpt">How a daily frustration with ward round documentation turned into a full product. The process, the decisions, and what I'd do differently.</p>
-      <div class="blog-meta"><span>Dr. Sunil Mulgund</span><span class="blog-dot"></span><span>Coming soon</span></div>
-    </a>
-
+  <div class="blog-grid" id="blog-grid">
+    <div class="blog-card blog-skeleton reveal" aria-hidden="true">
+      <div class="blog-tag" style="opacity:0.4;">Loading</div>
+      <div class="blog-title" style="opacity:0.5;">Fetching latest posts…</div>
+      <p class="blog-excerpt" style="opacity:0.4;">Pulling posts straight from Blogger. They'll appear here in a moment.</p>
+      <div class="blog-meta" style="opacity:0.4;"><span>Dr. Sunil Mulgund</span><span class="blog-dot"></span><span>—</span></div>
+    </div>
   </div>
 </section>
 
@@ -715,6 +699,61 @@
       if (e.key === 'Enter') { e.preventDefault(); payCustom(); }
     });
   }
+
+  /* === Blog posts from Blogger === */
+  (function () {
+    const grid = document.getElementById('blog-grid');
+    if (!grid) return;
+    const FEED = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json&max-results=6';
+
+    const stripHtml = (html) => {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html || '';
+      return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+    };
+    const truncate = (s, n) => s.length > n ? s.slice(0, n).trim() + '…' : s;
+    const formatDate = (iso) => {
+      try {
+        return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+      } catch (e) { return ''; }
+    };
+    const extractPostId = (tagId) => {
+      const m = String(tagId || '').match(/post-(\d+)/);
+      return m ? m[1] : '';
+    };
+    const escapeHtml = (s) => String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+    fetch(FEED)
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(data => {
+        const entries = (data && data.feed && data.feed.entry) || [];
+        if (entries.length === 0) {
+          grid.innerHTML = '<div class="blog-card" style="grid-column:1/-1;text-align:center;"><p class="blog-excerpt" style="margin:0;">No posts yet — first one coming soon.</p></div>';
+          return;
+        }
+        const cards = entries.map(e => {
+          const title = (e.title && e.title.$t) || 'Untitled';
+          const content = (e.content && e.content.$t) || '';
+          const excerpt = truncate(stripHtml(content), 140);
+          const date = formatDate(e.published && e.published.$t);
+          const author = (e.author && e.author[0] && e.author[0].name && e.author[0].name.$t) || 'Dr. Sunil Mulgund';
+          const cats = (e.category || []).map(c => c.term).filter(Boolean);
+          const tag = cats[0] || 'Post';
+          const id = extractPostId(e.id && e.id.$t);
+          const href = id ? '/blog/?id=' + encodeURIComponent(id) : (((e.link || []).find(l => l.rel === 'alternate') || {}).href || '#');
+          return '<a href="' + escapeHtml(href) + '" class="blog-card reveal">' +
+                 '<div class="blog-tag">' + escapeHtml(tag) + '</div>' +
+                 '<div class="blog-title">' + escapeHtml(title) + '</div>' +
+                 '<p class="blog-excerpt">' + escapeHtml(excerpt) + '</p>' +
+                 '<div class="blog-meta"><span>' + escapeHtml(author) + '</span><span class="blog-dot"></span><span>' + escapeHtml(date) + '</span></div>' +
+                 '</a>';
+        }).join('');
+        grid.innerHTML = cards;
+      })
+      .catch(() => {
+        grid.innerHTML = '<div class="blog-card" style="grid-column:1/-1;text-align:center;"><div class="blog-tag">Heads up</div><div class="blog-title">Couldn\'t load posts right now</div><p class="blog-excerpt" style="margin:0;">Try refreshing in a moment, or read directly on <a href="https://bridgr.blogspot.com" target="_blank" rel="noopener" style="color:var(--accent);">bridgr.blogspot.com</a>.</p></div>';
+      });
+  })();
 
   /* === Visitor counter === */
   // Uses counterapi.dev (free, no signup, no auth). One increment per browser per day.
