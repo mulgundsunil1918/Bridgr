@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Every post on Bridgr — notes from the ward and the workbench by Dr. Sunil Mulgund."/>
+  <meta property="og:title" content="All posts · Bridgr"/>
+  <meta property="og:description" content="Every published note on Bridgr."/>
+  <meta property="og:type" content="website"/>
+  <title>All posts · Bridgr</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --accent:#2DD4BF; --accent2:#0EA5E9; --accent-glow:rgba(45,212,191,0.18);
+      --radius:24px;
+      --bg:#080c14; --surface:rgba(255,255,255,0.04); --surface-hover:rgba(255,255,255,0.08);
+      --border:rgba(255,255,255,0.08); --border-hover:rgba(45,212,191,0.35);
+      --text:#f0f4ff; --text-muted:rgba(240,244,255,0.65); --text-subtle:rgba(240,244,255,0.32);
+      --icon-bg:linear-gradient(160deg,#0f2235,#080d1a);
+      --icon-border:rgba(45,212,191,0.22);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+    .bg-orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.1;animation:drift 18s ease-in-out infinite alternate;}
+    .orb-1{width:600px;height:600px;background:var(--accent);top:-200px;left:-150px;}
+    .orb-2{width:500px;height:500px;background:var(--accent2);bottom:-100px;right:-100px;animation-delay:-6s;}
+    @keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(40px,30px) scale(1.08);}}
+
+    .page-header{position:relative;z-index:2;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);background:rgba(8,12,20,0.7);backdrop-filter:blur(16px);}
+    .logo-lockup{display:flex;align-items:center;gap:14px;text-decoration:none;}
+    .logo-icon-box{width:38px;height:38px;border-radius:11px;background:var(--icon-bg);border:1px solid var(--icon-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(45,212,191,0.12),inset 0 1px 0 rgba(255,255,255,0.08);}
+    .logo-text{display:flex;flex-direction:column;gap:2px;}
+    .logo-name{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.25rem;line-height:1;color:var(--text);}
+    .logo-name .r{color:var(--accent);}
+    .logo-tag{font-family:'DM Sans',sans-serif;font-weight:400;font-size:0.55rem;letter-spacing:0.1em;color:rgba(45,212,191,0.65);margin-top:2px;}
+    .header-link{display:inline-flex;align-items:center;gap:8px;font-size:0.88rem;font-weight:500;color:var(--text-muted);text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(10px);transition:color 0.2s,border-color 0.2s,background 0.2s,transform 0.2s;}
+    .header-link:hover{color:var(--accent);border-color:var(--border-hover);background:var(--accent-glow);transform:translateY(-1px);}
+
+    main{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:48px 24px 64px;}
+
+    .archive-label{font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+    .archive-label::before{content:'';width:24px;height:1px;background:var(--accent);}
+    .archive-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,4.5vw,2.8rem);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:14px;color:var(--text);}
+    .archive-sub{color:var(--text-muted);font-size:1rem;line-height:1.7;max-width:640px;margin-bottom:36px;}
+
+    .filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:32px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:14px;backdrop-filter:blur(10px);}
+    .filter-row.hidden{display:none;}
+    .filter-row label{font-size:0.78rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);}
+    .filter-select{flex:1;min-width:160px;padding:10px 14px;border-radius:10px;background:var(--surface-hover);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;cursor:pointer;transition:border-color 0.2s;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1L6 6L11 1' stroke='%232DD4BF' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;background-size:12px;padding-right:38px;-webkit-appearance:none;-moz-appearance:none;appearance:none;}
+    .filter-select:focus{border-color:var(--border-hover);}
+    .filter-count{font-size:0.85rem;color:var(--text-subtle);font-variant-numeric:tabular-nums;}
+
+    .year-section{margin-bottom:36px;}
+    .year-heading{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text-subtle);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+
+    .post-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+    .post-list-item{display:grid;grid-template-columns:90px 1fr auto;align-items:center;gap:18px;padding:18px 20px;border-radius:14px;background:var(--surface);border:1px solid var(--border);text-decoration:none;color:var(--text);transition:transform 0.18s,border-color 0.2s,background 0.2s;backdrop-filter:blur(10px);}
+    .post-list-item:hover{transform:translateY(-2px);border-color:var(--border-hover);background:var(--surface-hover);}
+    .pl-date{font-size:0.78rem;color:var(--text-subtle);font-variant-numeric:tabular-nums;letter-spacing:0.02em;}
+    .pl-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.02rem;font-weight:600;line-height:1.35;color:var(--text);}
+    .pl-tag{display:inline-block;font-size:0.62rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-glow);border-radius:6px;padding:3px 9px;}
+
+    .archive-state{padding:60px 0;text-align:center;color:var(--text-muted);}
+    .archive-state.error h2{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);margin-bottom:8px;font-size:1.4rem;}
+    .archive-state .end-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text-muted);font-size:0.9rem;font-weight:500;text-decoration:none;backdrop-filter:blur(10px);transition:color 0.2s,border-color 0.2s,background 0.2s,transform 0.2s;}
+    .archive-state .end-btn:hover{color:var(--accent);border-color:var(--border-hover);background:var(--accent-glow);transform:translateY(-1px);}
+
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px 24px 40px;text-align:center;color:var(--text-subtle);font-size:0.82rem;}
+
+    @media(max-width:768px){
+      .page-header{padding:14px 18px;}
+      main{padding:32px 18px 56px;}
+      .logo-icon-box{width:34px;height:34px;}
+      .logo-name{font-size:1.1rem;}
+      .header-link{font-size:0.8rem;padding:7px 12px;}
+      .post-list-item{grid-template-columns:1fr;gap:8px;padding:16px 18px;}
+      .pl-date{font-size:0.75rem;}
+      .pl-tag{justify-self:start;}
+      .filter-row{padding:12px 14px;gap:10px;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<header class="page-header">
+  <a href="/" class="logo-lockup">
+    <div class="logo-icon-box">
+      <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+        <rect x="10" y="18" width="32" height="56" rx="9" fill="url(#bg1)"/>
+        <rect x="58" y="18" width="32" height="56" rx="9" fill="url(#bg2)"/>
+        <line x1="42" y1="50" x2="58" y2="50" stroke="url(#bgg)" stroke-width="5" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="bg1" x1="10" y1="18" x2="42" y2="74" gradientUnits="userSpaceOnUse"><stop stop-color="#5ef5e4"/><stop offset="1" stop-color="#1db8aa"/></linearGradient>
+          <linearGradient id="bg2" x1="58" y1="18" x2="90" y2="74" gradientUnits="userSpaceOnUse"><stop stop-color="#4dcff8"/><stop offset="1" stop-color="#0a8ecf"/></linearGradient>
+          <linearGradient id="bgg" x1="42" y1="50" x2="58" y2="50" gradientUnits="userSpaceOnUse"><stop stop-color="#2DD4BF"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-name">Bridg<span class="r">r</span></span>
+      <span class="logo-tag">Bridge the gap</span>
+    </div>
+  </a>
+  <a href="/" class="header-link">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Home
+  </a>
+</header>
+
+<main>
+  <div class="archive-label">Archive</div>
+  <h1 class="archive-title">All posts</h1>
+  <p class="archive-sub">Every published note from the ward and the workbench. Newest first, grouped by year.</p>
+
+  <div class="filter-row hidden" id="filter-row">
+    <label for="filter">Filter</label>
+    <select class="filter-select" id="filter">
+      <option value="">All categories</option>
+    </select>
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+
+  <div id="archive-list">
+    <div class="archive-state" aria-live="polite">Loading posts…</div>
+  </div>
+</main>
+
+<footer>
+  © 2025 Dr. Sunil Mulgund · Built with purpose
+</footer>
+
+<script>
+  (function () {
+    const listEl = document.getElementById('archive-list');
+    const filterRow = document.getElementById('filter-row');
+    const filterSel = document.getElementById('filter');
+    const filterCount = document.getElementById('filter-count');
+
+    const stripHtml = (html) => { const t = document.createElement('div'); t.innerHTML = html || ''; return (t.textContent || t.innerText || '').replace(/\s+/g, ' ').trim(); };
+    const escapeHtml = (s) => String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    const extractPostId = (tagId) => { const m = String(tagId || '').match(/post-(\d+)/); return m ? m[1] : ''; };
+    const formatShortDate = (iso) => {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+      } catch (e) { return ''; }
+    };
+
+    const cbName = '__archive_' + Date.now();
+    let done = false;
+    let allPosts = [];
+
+    const showError = (h, p) => {
+      listEl.innerHTML = '<div class="archive-state error"><h2>' + h + '</h2><p style="margin-bottom:18px;">' + p + '</p><a href="/#blog" class="end-btn">← Back to home</a></div>';
+    };
+
+    const fail = () => {
+      if (done) return; done = true;
+      showError("Couldn't load posts", 'Refresh in a moment, or read directly on <a href="https://bridgr.blogspot.com" target="_blank" rel="noopener" style="color:var(--accent);">bridgr.blogspot.com</a>.');
+    };
+
+    function render(posts) {
+      if (posts.length === 0) {
+        listEl.innerHTML = '<div class="archive-state">No posts match this filter.</div>';
+        filterCount.textContent = '0 posts';
+        return;
+      }
+      // Group by year
+      const byYear = {};
+      posts.forEach(p => {
+        const y = new Date(p.published).getFullYear();
+        (byYear[y] = byYear[y] || []).push(p);
+      });
+      const years = Object.keys(byYear).sort((a, b) => b - a);
+      const html = years.map(y => {
+        const items = byYear[y].map(p =>
+          '<li><a href="/blog/?id=' + encodeURIComponent(p.id) + '" class="post-list-item">' +
+          '<span class="pl-date">' + escapeHtml(formatShortDate(p.published)) + '</span>' +
+          '<span class="pl-title">' + escapeHtml(p.title) + '</span>' +
+          '<span class="pl-tag">' + escapeHtml(p.tag) + '</span>' +
+          '</a></li>'
+        ).join('');
+        return '<section class="year-section"><h2 class="year-heading">' + escapeHtml(y) + '</h2><ul class="post-list">' + items + '</ul></section>';
+      }).join('');
+      listEl.innerHTML = html;
+      filterCount.textContent = posts.length + ' post' + (posts.length === 1 ? '' : 's');
+    }
+
+    function applyFilter() {
+      const v = filterSel.value;
+      if (!v) { render(allPosts); return; }
+      render(allPosts.filter(p => p.categories.indexOf(v) !== -1));
+    }
+
+    window[cbName] = function (data) {
+      if (done) return; done = true;
+      const entries = (data && data.feed && data.feed.entry) || [];
+      if (entries.length === 0) {
+        listEl.innerHTML = '<div class="archive-state">No posts yet — first one coming soon.</div>';
+        return;
+      }
+      allPosts = entries.map(e => {
+        const cats = (e.category || []).map(c => c.term).filter(Boolean);
+        return {
+          id: extractPostId(e.id && e.id.$t),
+          title: (e.title && e.title.$t) || 'Untitled',
+          published: (e.published && e.published.$t) || '',
+          tag: cats[0] || 'Post',
+          categories: cats
+        };
+      }).filter(p => p.id);
+
+      // Sort newest first
+      allPosts.sort((a, b) => (b.published || '').localeCompare(a.published || ''));
+
+      // Build category dropdown if 2+ unique categories
+      const allCats = Array.from(new Set(allPosts.flatMap(p => p.categories))).sort();
+      if (allCats.length >= 2) {
+        allCats.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c; opt.textContent = c;
+          filterSel.appendChild(opt);
+        });
+        filterRow.classList.remove('hidden');
+        filterSel.addEventListener('change', applyFilter);
+      }
+
+      render(allPosts);
+    };
+
+    const s = document.createElement('script');
+    s.src = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=500&callback=' + cbName;
+    s.async = true;
+    s.onerror = fail;
+    document.head.appendChild(s);
+    setTimeout(fail, 10000);
+  })();
+</script>
+</body>
+</html>

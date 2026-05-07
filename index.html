@@ -134,6 +134,10 @@
     .blog-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:10px;color:var(--text);}
     .blog-excerpt{font-size:0.875rem;line-height:1.65;color:var(--text-muted);margin-bottom:20px;}
     .blog-meta{font-size:0.75rem;color:var(--text-subtle);display:flex;align-items:center;gap:8px;}
+    .view-all-wrap{display:flex;justify-content:center;margin-top:36px;}
+    .view-all-link{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--text-muted);font-size:0.92rem;font-weight:600;text-decoration:none;backdrop-filter:blur(10px);transition:color 0.2s,border-color 0.2s,background 0.2s,transform 0.2s,gap 0.2s;}
+    .view-all-link:hover{color:var(--accent);border-color:var(--border-hover);background:var(--accent-glow);transform:translateY(-2px);gap:12px;}
+    .view-all-link svg{flex-shrink:0;}
     .blog-dot{width:3px;height:3px;border-radius:50%;background:var(--text-subtle);}
 
     /* CONTACT */
@@ -468,6 +472,9 @@
       <p class="blog-excerpt" style="opacity:0.4;">Pulling posts straight from Blogger. They'll appear here in a moment.</p>
       <div class="blog-meta" style="opacity:0.4;"><span>Dr. Sunil Mulgund</span><span class="blog-dot"></span><span>—</span></div>
     </div>
+  </div>
+  <div class="view-all-wrap">
+    <a href="/blog/all/" class="view-all-link">View all posts <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
   </div>
 </section>
 
