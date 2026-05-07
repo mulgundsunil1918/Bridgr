@@ -82,6 +82,20 @@
     .end-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#080c14;border:none;font-weight:600;}
     .end-btn.primary:hover{filter:brightness(1.05);box-shadow:0 6px 20px var(--accent-glow);}
 
+    .reactions{margin:40px 0 0;padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:18px;backdrop-filter:blur(14px);}
+    .reactions-label{display:block;text-align:center;font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;letter-spacing:0.01em;}
+    .reactions-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+    .reaction{display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;background:var(--surface-hover);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:transform 0.18s,border-color 0.2s,background 0.2s;-webkit-tap-highlight-color:transparent;}
+    .reaction:hover{border-color:var(--border-hover);background:var(--accent-glow);transform:translateY(-2px);}
+    .reaction.clicked{border-color:var(--accent);background:var(--accent-glow);}
+    .reaction.clicked .r-count{color:var(--accent);font-weight:700;}
+    .reaction:disabled{cursor:default;opacity:0.92;}
+    .r-emoji{font-size:1.2rem;line-height:1;display:inline-block;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+    .reaction:hover .r-emoji{transform:scale(1.18) rotate(-6deg);}
+    .reaction.bump .r-emoji{animation:emoji-bump 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+    @keyframes emoji-bump{0%{transform:scale(1);}40%{transform:scale(1.45) rotate(-10deg);}100%{transform:scale(1);}}
+    .r-count{font-variant-numeric:tabular-nums;font-size:0.88rem;color:var(--text-muted);min-width:14px;text-align:left;}
+
     .loading,.error{padding:60px 0;text-align:center;color:var(--text-muted);}
     .error h2{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);margin-bottom:8px;font-size:1.4rem;}
 
@@ -140,6 +154,17 @@
     <h1 class="post-title" id="post-title">—</h1>
     <div class="post-author-row">By <strong id="post-author">Dr. Sunil Mulgund</strong></div>
     <div class="post-content" id="post-content"></div>
+
+    <div class="reactions" id="reactions" hidden>
+      <span class="reactions-label">Did this resonate?</span>
+      <div class="reactions-row">
+        <button type="button" class="reaction" data-type="claps"><span class="r-emoji">👏</span><span class="r-count" data-count-for="claps">0</span></button>
+        <button type="button" class="reaction" data-type="love"><span class="r-emoji">❤️</span><span class="r-count" data-count-for="love">0</span></button>
+        <button type="button" class="reaction" data-type="insight"><span class="r-emoji">💡</span><span class="r-count" data-count-for="insight">0</span></button>
+        <button type="button" class="reaction" data-type="thanks"><span class="r-emoji">🙏</span><span class="r-count" data-count-for="thanks">0</span></button>
+      </div>
+    </div>
+
     <hr class="post-divider"/>
     <div class="post-end">
       <a href="/#blog" class="end-btn">
@@ -230,7 +255,65 @@
 
       stateEl.hidden = true;
       article.hidden = false;
+
+      initReactions(wantedId);
     };
+
+    /* === Emoji reactions (per-post counts via counterapi.dev) === */
+    function initReactions(postId) {
+      const NS = 'bridgr-blog';
+      const TYPES = ['claps', 'love', 'insight', 'thanks'];
+      const wrap = document.getElementById('reactions');
+      if (!wrap) return;
+      wrap.hidden = false;
+
+      const formatNum = (n) => Number(n).toLocaleString('en-IN');
+      const getCountEl = (t) => wrap.querySelector('[data-count-for="' + t + '"]');
+      const getBtn = (t) => wrap.querySelector('.reaction[data-type="' + t + '"]');
+
+      // Load existing counts (in parallel)
+      TYPES.forEach(t => {
+        const key = postId + '-' + t;
+        fetch('https://api.counterapi.dev/v1/' + NS + '/' + key + '/')
+          .then(r => r.ok ? r.json() : Promise.reject(0))
+          .then(d => {
+            const c = d && (d.count || d.value);
+            if (typeof c === 'number') getCountEl(t).textContent = formatNum(c);
+          })
+          .catch(() => {});
+        // Pre-mark as clicked if user already reacted on this browser
+        if (localStorage.getItem('bridgr_react_' + postId + '_' + t)) {
+          getBtn(t).classList.add('clicked');
+        }
+      });
+
+      // Wire click → increment + bump animation + lock per-browser
+      wrap.querySelectorAll('.reaction').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const t = btn.dataset.type;
+          const lockKey = 'bridgr_react_' + postId + '_' + t;
+          if (localStorage.getItem(lockKey)) return;
+          localStorage.setItem(lockKey, '1');
+          btn.classList.add('clicked', 'bump');
+          setTimeout(() => btn.classList.remove('bump'), 600);
+
+          // Optimistic count bump
+          const el = getCountEl(t);
+          const cur = parseInt((el.textContent || '0').replace(/[^\d]/g, ''), 10) || 0;
+          el.textContent = formatNum(cur + 1);
+
+          // Hit increment endpoint
+          const key = postId + '-' + t;
+          fetch('https://api.counterapi.dev/v1/' + NS + '/' + key + '/up')
+            .then(r => r.ok ? r.json() : Promise.reject(0))
+            .then(d => {
+              const c = d && (d.count || d.value);
+              if (typeof c === 'number') el.textContent = formatNum(c);
+            })
+            .catch(() => {});
+        });
+      });
+    }
 
     const s = document.createElement('script');
     s.src = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=50&callback=' + cbName;
