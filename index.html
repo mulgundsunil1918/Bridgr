@@ -700,59 +700,58 @@
     });
   }
 
-  /* === Blog posts from Blogger === */
+  /* === Blog posts from Blogger (via JSONP, since the feed lacks CORS) === */
   (function () {
     const grid = document.getElementById('blog-grid');
     if (!grid) return;
-    const FEED = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json&max-results=6';
 
-    const stripHtml = (html) => {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html || '';
-      return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
-    };
+    const stripHtml = (html) => { const t = document.createElement('div'); t.innerHTML = html || ''; return (t.textContent || t.innerText || '').replace(/\s+/g, ' ').trim(); };
     const truncate = (s, n) => s.length > n ? s.slice(0, n).trim() + '…' : s;
-    const formatDate = (iso) => {
-      try {
-        return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
-      } catch (e) { return ''; }
-    };
-    const extractPostId = (tagId) => {
-      const m = String(tagId || '').match(/post-(\d+)/);
-      return m ? m[1] : '';
-    };
+    const formatDate = (iso) => { try { return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }); } catch (e) { return ''; } };
+    const extractPostId = (tagId) => { const m = String(tagId || '').match(/post-(\d+)/); return m ? m[1] : ''; };
     const escapeHtml = (s) => String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 
-    fetch(FEED)
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
-      .then(data => {
-        const entries = (data && data.feed && data.feed.entry) || [];
-        if (entries.length === 0) {
-          grid.innerHTML = '<div class="blog-card" style="grid-column:1/-1;text-align:center;"><p class="blog-excerpt" style="margin:0;">No posts yet — first one coming soon.</p></div>';
-          return;
-        }
-        const cards = entries.map(e => {
-          const title = (e.title && e.title.$t) || 'Untitled';
-          const content = (e.content && e.content.$t) || '';
-          const excerpt = truncate(stripHtml(content), 140);
-          const date = formatDate(e.published && e.published.$t);
-          const author = (e.author && e.author[0] && e.author[0].name && e.author[0].name.$t) || 'Dr. Sunil Mulgund';
-          const cats = (e.category || []).map(c => c.term).filter(Boolean);
-          const tag = cats[0] || 'Post';
-          const id = extractPostId(e.id && e.id.$t);
-          const href = id ? '/blog/?id=' + encodeURIComponent(id) : (((e.link || []).find(l => l.rel === 'alternate') || {}).href || '#');
-          return '<a href="' + escapeHtml(href) + '" class="blog-card reveal">' +
-                 '<div class="blog-tag">' + escapeHtml(tag) + '</div>' +
-                 '<div class="blog-title">' + escapeHtml(title) + '</div>' +
-                 '<p class="blog-excerpt">' + escapeHtml(excerpt) + '</p>' +
-                 '<div class="blog-meta"><span>' + escapeHtml(author) + '</span><span class="blog-dot"></span><span>' + escapeHtml(date) + '</span></div>' +
-                 '</a>';
-        }).join('');
-        grid.innerHTML = cards;
-      })
-      .catch(() => {
-        grid.innerHTML = '<div class="blog-card" style="grid-column:1/-1;text-align:center;"><div class="blog-tag">Heads up</div><div class="blog-title">Couldn\'t load posts right now</div><p class="blog-excerpt" style="margin:0;">Try refreshing in a moment, or read directly on <a href="https://bridgr.blogspot.com" target="_blank" rel="noopener" style="color:var(--accent);">bridgr.blogspot.com</a>.</p></div>';
-      });
+    const cbName = '__bridgrFeed_' + Date.now();
+    let done = false;
+
+    const renderError = () => {
+      if (done) return; done = true;
+      grid.innerHTML = '<div class="blog-card" style="grid-column:1/-1;text-align:center;"><div class="blog-tag">Heads up</div><div class="blog-title">Couldn\'t load posts right now</div><p class="blog-excerpt" style="margin:0;">Try refreshing in a moment, or read directly on <a href="https://bridgr.blogspot.com" target="_blank" rel="noopener" style="color:var(--accent);">bridgr.blogspot.com</a>.</p></div>';
+    };
+
+    window[cbName] = function (data) {
+      if (done) return; done = true;
+      const entries = (data && data.feed && data.feed.entry) || [];
+      if (entries.length === 0) {
+        grid.innerHTML = '<div class="blog-card" style="grid-column:1/-1;text-align:center;"><p class="blog-excerpt" style="margin:0;">No posts yet — first one coming soon.</p></div>';
+        return;
+      }
+      const cards = entries.map(e => {
+        const title = (e.title && e.title.$t) || 'Untitled';
+        const content = (e.content && e.content.$t) || (e.summary && e.summary.$t) || '';
+        const excerpt = truncate(stripHtml(content), 140);
+        const date = formatDate(e.published && e.published.$t);
+        const author = (e.author && e.author[0] && e.author[0].name && e.author[0].name.$t) || 'Dr. Sunil Mulgund';
+        const cats = (e.category || []).map(c => c.term).filter(Boolean);
+        const tag = cats[0] || 'Post';
+        const id = extractPostId(e.id && e.id.$t);
+        const href = id ? '/blog/?id=' + encodeURIComponent(id) : (((e.link || []).find(l => l.rel === 'alternate') || {}).href || '#');
+        return '<a href="' + escapeHtml(href) + '" class="blog-card reveal">' +
+               '<div class="blog-tag">' + escapeHtml(tag) + '</div>' +
+               '<div class="blog-title">' + escapeHtml(title) + '</div>' +
+               '<p class="blog-excerpt">' + escapeHtml(excerpt) + '</p>' +
+               '<div class="blog-meta"><span>' + escapeHtml(author) + '</span><span class="blog-dot"></span><span>' + escapeHtml(date) + '</span></div>' +
+               '</a>';
+      }).join('');
+      grid.innerHTML = cards;
+    };
+
+    const s = document.createElement('script');
+    s.src = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=6&callback=' + cbName;
+    s.async = true;
+    s.onerror = renderError;
+    document.head.appendChild(s);
+    setTimeout(renderError, 8000);
   })();
 
   /* === Visitor counter === */

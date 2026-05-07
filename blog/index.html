@@ -159,7 +159,6 @@
 
 <script>
   (function () {
-    const FEED = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json&max-results=50';
     const stateEl = document.getElementById('post-state');
     const article = document.getElementById('post-article');
 
@@ -176,57 +175,58 @@
       return;
     }
 
-    const formatDate = (iso) => {
-      try { return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }); }
-      catch (e) { return ''; }
+    const formatDate = (iso) => { try { return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) { return ''; } };
+    const extractPostId = (tagId) => { const m = String(tagId || '').match(/post-(\d+)/); return m ? m[1] : ''; };
+
+    const cbName = '__bridgrPost_' + Date.now();
+    let done = false;
+
+    const fail = () => {
+      if (done) return; done = true;
+      showError("Couldn't load post", 'Refresh in a moment, or read it directly on <a href="https://bridgr.blogspot.com" target="_blank" rel="noopener" style="color:var(--accent);">bridgr.blogspot.com</a>.');
     };
-    const extractPostId = (tagId) => {
-      const m = String(tagId || '').match(/post-(\d+)/);
-      return m ? m[1] : '';
-    };
 
-    fetch(FEED)
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
-      .then(data => {
-        const entries = (data && data.feed && data.feed.entry) || [];
-        const post = entries.find(e => extractPostId(e.id && e.id.$t) === wantedId);
-        if (!post) { showError('Post not found', "Maybe it was removed, or the link is wrong. Head back and pick another."); return; }
+    window[cbName] = function (data) {
+      if (done) return; done = true;
+      const entries = (data && data.feed && data.feed.entry) || [];
+      const post = entries.find(e => extractPostId(e.id && e.id.$t) === wantedId);
+      if (!post) { stateEl.className = 'error'; stateEl.innerHTML = '<h2>Post not found</h2><p style="margin-bottom:18px;">Maybe it was removed, or the link is wrong. Head back and pick another.</p><a href="/#blog" class="end-btn">← Back to all posts</a>'; return; }
 
-        const title = (post.title && post.title.$t) || 'Untitled';
-        const content = (post.content && post.content.$t) || '<p><em>This post has no content yet.</em></p>';
-        const date = formatDate(post.published && post.published.$t);
-        const author = (post.author && post.author[0] && post.author[0].name && post.author[0].name.$t) || 'Dr. Sunil Mulgund';
-        const cats = (post.category || []).map(c => c.term).filter(Boolean);
-        const tag = cats[0] || 'Post';
-        const permalink = ((post.link || []).find(l => l.rel === 'alternate') || {}).href || '';
+      const title = (post.title && post.title.$t) || 'Untitled';
+      const content = (post.content && post.content.$t) || '<p><em>This post has no content yet.</em></p>';
+      const date = formatDate(post.published && post.published.$t);
+      const author = (post.author && post.author[0] && post.author[0].name && post.author[0].name.$t) || 'Dr. Sunil Mulgund';
+      const cats = (post.category || []).map(c => c.term).filter(Boolean);
+      const tag = cats[0] || 'Post';
 
-        document.getElementById('post-tag').textContent = tag;
-        document.getElementById('post-date').textContent = date;
-        document.getElementById('post-title').textContent = title;
-        document.getElementById('post-author').textContent = author;
-        document.getElementById('post-content').innerHTML = content;
+      document.getElementById('post-tag').textContent = tag;
+      document.getElementById('post-date').textContent = date;
+      document.getElementById('post-title').textContent = title;
+      document.getElementById('post-author').textContent = author;
+      document.getElementById('post-content').innerHTML = content;
 
-        // Make embedded links open in new tab for safety
-        document.querySelectorAll('#post-content a').forEach(a => {
-          if (a.hostname && a.hostname !== window.location.hostname) {
-            a.target = '_blank'; a.rel = 'noopener';
-          }
-        });
-
-        document.getElementById('page-title').textContent = title + ' · Bridgr';
-        document.title = title + ' · Bridgr';
-        document.getElementById('og-title').setAttribute('content', title + ' · Bridgr');
-        const tmp = document.createElement('div'); tmp.innerHTML = content;
-        const plain = (tmp.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 160);
-        document.getElementById('og-description').setAttribute('content', plain);
-        document.getElementById('meta-description').setAttribute('content', plain);
-
-        stateEl.hidden = true;
-        article.hidden = false;
-      })
-      .catch(() => {
-        showError("Couldn't load post", 'Refresh in a moment, or read it directly on <a href="https://bridgr.blogspot.com" target="_blank" rel="noopener" style="color:var(--accent);">bridgr.blogspot.com</a>.');
+      document.querySelectorAll('#post-content a').forEach(a => {
+        if (a.hostname && a.hostname !== window.location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
       });
+
+      document.getElementById('page-title').textContent = title + ' · Bridgr';
+      document.title = title + ' · Bridgr';
+      document.getElementById('og-title').setAttribute('content', title + ' · Bridgr');
+      const tmp = document.createElement('div'); tmp.innerHTML = content;
+      const plain = (tmp.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 160);
+      document.getElementById('og-description').setAttribute('content', plain);
+      document.getElementById('meta-description').setAttribute('content', plain);
+
+      stateEl.hidden = true;
+      article.hidden = false;
+    };
+
+    const s = document.createElement('script');
+    s.src = 'https://bridgr.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=50&callback=' + cbName;
+    s.async = true;
+    s.onerror = fail;
+    document.head.appendChild(s);
+    setTimeout(fail, 10000);
   })();
 </script>
 </body>
