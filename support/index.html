@@ -127,6 +127,24 @@
     .back-link:hover svg{transform:translateX(-3px);}
     .copyright{color:var(--text-subtle);font-size:0.82rem;}
 
+    /* iOS UPI app chooser */
+    .ios-chooser-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:999;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);animation:fadeIn 0.25s ease;}
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    .ios-chooser{background:var(--bg2);border:1px solid var(--border);border-top-left-radius:24px;border-top-right-radius:24px;padding:24px 20px 44px;width:100%;max-width:520px;animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);}
+    @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+    .ios-chooser-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;}
+    .ios-chooser h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+    .ios-chooser p{font-size:0.85rem;color:var(--text-muted);margin-bottom:20px;}
+    .ios-app-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+    .ios-app-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;border-radius:14px;background:var(--surface-hover);border:1px solid var(--border);color:var(--text);font-size:0.82rem;font-weight:600;text-decoration:none;transition:all 0.2s;cursor:pointer;}
+    .ios-app-btn:hover,.ios-app-btn:active{border-color:var(--border-hover);background:var(--accent-glow);}
+    .ios-app-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;}
+    .gpay-icon{background:#1a73e8;color:#fff;}
+    .phonepe-icon{background:#5f259f;color:#fff;}
+    .paytm-icon{background:#00b9f1;color:#fff;}
+    .ios-chooser-cancel{width:100%;padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:all 0.2s;}
+    .ios-chooser-cancel:hover{color:var(--text);background:var(--surface-hover);}
+
     @media(max-width:768px){
       .page-header{padding:16px 20px;}
       main{padding:32px 20px 56px;}
@@ -299,11 +317,44 @@
   /* === UPI === */
   const UPI_ID = 'dr.mulgund1@ybl';
   const UPI_NAME = 'Dr. Sunil Mulgund';
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
   const upiLink = (amount) => {
     let l = 'upi://pay?pa=' + encodeURIComponent(UPI_ID) + '&pn=' + encodeURIComponent(UPI_NAME) + '&cu=INR';
     if (amount) l += '&am=' + encodeURIComponent(amount);
     return l;
   };
+
+  function iosUpiLink(app, amount) {
+    const pa = encodeURIComponent(UPI_ID);
+    const pn = encodeURIComponent(UPI_NAME);
+    const am = amount ? '&am=' + encodeURIComponent(amount) : '';
+    if (app === 'gpay')    return 'tez://upi/pay?pa=' + pa + '&pn=' + pn + '&cu=INR' + am;
+    if (app === 'phonepe') return 'phonepe://pay?transactionId=bridgr&pa=' + pa + '&pn=' + pn + '&cu=INR' + am;
+    if (app === 'paytm')   return 'paytmmp://cash?pa=' + pa + '&pn=' + pn + '&cu=INR' + am;
+    return '';
+  }
+
+  function showIOSChooser(amount) {
+    const amtLabel = amount ? ' — ₹' + amount : '';
+    const overlay = document.createElement('div');
+    overlay.className = 'ios-chooser-overlay';
+    overlay.innerHTML =
+      '<div class="ios-chooser">' +
+        '<div class="ios-chooser-handle"></div>' +
+        '<h3>Open in UPI App' + amtLabel + '</h3>' +
+        '<p>Choose the UPI app installed on your iPhone</p>' +
+        '<div class="ios-app-row">' +
+          '<a class="ios-app-btn" href="' + iosUpiLink('gpay', amount) + '"><span class="ios-app-icon gpay-icon">G</span>Google Pay</a>' +
+          '<a class="ios-app-btn" href="' + iosUpiLink('phonepe', amount) + '"><span class="ios-app-icon phonepe-icon">P</span>PhonePe</a>' +
+          '<a class="ios-app-btn" href="' + iosUpiLink('paytm', amount) + '"><span class="ios-app-icon paytm-icon">P</span>Paytm</a>' +
+        '</div>' +
+        '<button class="ios-chooser-cancel" onclick="this.closest(\'.ios-chooser-overlay\').remove()">Cancel</button>' +
+      '</div>';
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+  }
+  window.showIOSChooser = showIOSChooser;
 
   function payCustom() {
     const v = parseFloat(document.getElementById('custom-amt').value);
@@ -311,7 +362,8 @@
       document.getElementById('custom-amt').focus();
       return;
     }
-    window.location.href = upiLink(v.toFixed(2));
+    if (isIOS) { showIOSChooser(v.toFixed(2)); }
+    else { window.location.href = upiLink(v.toFixed(2)); }
   }
   window.payCustom = payCustom;
 
@@ -334,6 +386,22 @@
     }
   }
   window.copyUpi = copyUpi;
+
+  /* === Wire up iOS UPI interactions === */
+  if (isIOS) {
+    const mainBtn = document.querySelector('.open-upi-btn');
+    if (mainBtn) {
+      mainBtn.addEventListener('click', function(e) { e.preventDefault(); showIOSChooser(null); });
+    }
+    const hint = document.querySelector('.open-upi-hint');
+    if (hint) hint.textContent = 'Tap to choose your UPI app — GPay, PhonePe or Paytm';
+    document.querySelectorAll('.amt-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showIOSChooser(btn.textContent.trim().replace('₹', ''));
+      });
+    });
+  }
 
   const customInput = document.getElementById('custom-amt');
   if (customInput) {
