@@ -357,6 +357,10 @@
     <a href="#apps" class="btn-primary">Explore Products <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     <a href="#about" class="btn-secondary">The Story</a>
   </div>
+  <div style="margin-top:40px;text-align:center;">
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(3.5rem,11vw,8rem);font-weight:800;letter-spacing:-0.04em;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="visitor-hero">—</div>
+    <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:8px;">Visitors</div>
+  </div>
 </section>
 
 <div class="divider"><hr/></div>
@@ -466,22 +470,6 @@
     </div>
 
   </div>
-</section>
-
-<section style="position:relative;z-index:1;text-align:center;padding:0 24px 100px;">
-  <div style="display:inline-block;">
-    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(4rem,12vw,9rem);font-weight:800;letter-spacing:-0.04em;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="visitor-count">—</div>
-    <div style="font-size:0.78rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:10px;">Visitors</div>
-  </div>
-  <script>
-    fetch('https://counterapi.com/api/bridgr.co.in/visits/up')
-      .then(r => r.json())
-      .then(d => {
-        if (d && d.value) {
-          document.getElementById('visitor-count').textContent = d.value.toLocaleString('en-IN');
-        }
-      }).catch(() => {});
-  </script>
 </section>
 
 <section class="section" id="about">
@@ -828,7 +816,7 @@
     const today = new Date().toISOString().slice(0, 10);
     const lastVisit = localStorage.getItem('bridgr_visit_day');
     const shouldIncrement = lastVisit !== today;
-    const url = 'https://api.counterapi.dev/v1/' + NS + '/' + KEY + (shouldIncrement ? '/up' : '/');
+    const url = 'https://counterapi.com/api/' + NS + '-' + KEY + (shouldIncrement ? '/up' : '/get');
 
     const formatNum = (n) => Number(n).toLocaleString('en-IN');
 
@@ -838,6 +826,8 @@
         const c = data && (data.count || data.value);
         if (typeof c === 'number') {
           numEl.textContent = formatNum(c);
+          const heroEl = document.getElementById('visitor-hero');
+          if (heroEl) heroEl.textContent = formatNum(c);
           if (shouldIncrement) localStorage.setItem('bridgr_visit_day', today);
         } else {
           numEl.parentElement.style.display = 'none';
