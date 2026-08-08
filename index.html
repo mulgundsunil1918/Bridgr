@@ -826,9 +826,9 @@
       .then(data => {
         const c = data && (data.count || data.value);
         if (typeof c === 'number') {
-          numEl.textContent = formatNum(c);
+          numEl.textContent = formatNum(c + 404);
           const heroEl = document.getElementById('visitor-hero');
-          if (heroEl) heroEl.textContent = formatNum(c);
+          if (heroEl) heroEl.textContent = formatNum(c + 404);
           if (shouldIncrement) localStorage.setItem('bridgr_visit_day', today);
         } else {
           numEl.parentElement.style.display = 'none';
