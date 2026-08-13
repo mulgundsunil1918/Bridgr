@@ -359,11 +359,6 @@
   </div>
 </section>
 
-<div style="text-align:center;padding:60px 24px;position:relative;z-index:1;">
-  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(3.5rem,11vw,8rem);font-weight:800;letter-spacing:-0.04em;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="visitor-hero">—</div>
-  <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:8px;">Visitors</div>
-</div>
-
 <div class="divider"><hr/></div>
 
 <!-- ABOUT -->
@@ -626,6 +621,11 @@
 <div class="divider"><hr/></div>
 
 <!-- CONTACT -->
+<section style="position:relative;z-index:1;text-align:center;padding:40px 24px 80px;">
+  <div id="visitor-hero" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(3.5rem,11vw,8rem);font-weight:800;letter-spacing:-0.04em;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;visibility:hidden;"></div>
+  <div id="visitor-hero-label" style="font-size:0.75rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:8px;visibility:hidden;">Visitors</div>
+</section>
+
 <section class="contact-section" id="contact">
   <div class="contact-card reveal">
     <div class="section-label" style="justify-content:center;margin-bottom:20px;">Get in touch</div>
@@ -828,7 +828,12 @@
         if (typeof c === 'number') {
           numEl.textContent = formatNum(c + 404);
           const heroEl = document.getElementById('visitor-hero');
-          if (heroEl) heroEl.textContent = formatNum(c + 404);
+          if (heroEl) {
+            heroEl.textContent = formatNum(c + 404);
+            heroEl.style.visibility = 'visible';
+            const lbl = document.getElementById('visitor-hero-label');
+            if (lbl) lbl.style.visibility = 'visible';
+          }
           if (shouldIncrement) localStorage.setItem('bridgr_visit_day', today);
         } else {
           numEl.parentElement.style.display = 'none';
